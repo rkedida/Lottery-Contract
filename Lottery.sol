@@ -15,10 +15,12 @@ contract lottery{
     }
 
     receive() external payable{
+        require(msg.value == 0.1 ether);
         participants.push(payable(msg.sender));
     }
 
     function getBalance() public view returns(uint){
+        require(msg.sender == admin);
         return address(this).balance;
     }
 
@@ -27,6 +29,9 @@ contract lottery{
     }
 
     function Winner() public{
+        require(msg.sender == admin);
+        require(participants.length >= 3);
+    
         address payable winner;
         uint r = random();
 
